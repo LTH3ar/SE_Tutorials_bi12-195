@@ -7,8 +7,11 @@ public class PostgradStudent extends Student {
     @DomainConstraint(type = "Float", mutable = true, optional = false, min = 0.0, max = 4.0)
     private float gpa;
 
-    public PostgradStudent(int id, String name, String phoneNumber, String address, float gpa)
-            throws IOException {
+    public PostgradStudent(@AttrRef("id") int id,
+    						@AttrRef("name")  String name,
+    						@AttrRef("phoneNumber")  String phoneNumber,
+    						@AttrRef("address") String address,
+    						@AttrRef("gpa")float gpa) throws IOException {
         super(id, name, phoneNumber, address);
         this.gpa = gpa;
     }
