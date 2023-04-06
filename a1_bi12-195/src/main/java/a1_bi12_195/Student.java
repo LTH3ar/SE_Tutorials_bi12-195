@@ -15,6 +15,7 @@ public class Student {
     @DomainConstraint(type = "String", mutable = true, optional = false, length = 100)
     private String address;
 
+    @DOpt(type = OptType.Constructor)
     public Student(@AttrRef("id") int id,
                    @AttrRef("name") String name,
                    @AttrRef("phoneNumber") String phoneNumber,
@@ -47,22 +48,29 @@ public class Student {
     }
 
     @DOpt(type = OptType.Mutator) @AttrRef("name")
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String name) throws IOException {
+        if (validateName(name)) {
+            this.name = name;
+        }
     }
 
     @DOpt(type = OptType.Mutator) @AttrRef("phoneNumber")
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phoneNumber) throws IOException {
+        if (validatePhoneNumber(phoneNumber)) {
+            this.phoneNumber = phoneNumber;
+        }
     }
 
     @DOpt(type = OptType.Mutator) @AttrRef("address")
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(String address) throws IOException {
+        if (validateAddress(address)) {
+            this.address = address;
+        }
     }
 
 
     //validation
+    @DOpt(type = OptType.Helper)
     public static boolean validateId(int id) throws IOException {
         if (id < 1 || id > 1000000000) {
             throw new IOException("Invalid ID: " + id);
@@ -70,6 +78,7 @@ public class Student {
         return true;
     }
 
+    @DOpt(type = OptType.Helper)
     public static boolean validateName(String name) throws IOException {
         if (name == null || name.length() > 50) {
             throw new IOException("Invalid name: " + name);
@@ -77,6 +86,7 @@ public class Student {
         return true;
     }
 
+    @DOpt(type = OptType.Helper)
     public static boolean validatePhoneNumber(String phoneNumber) throws IOException {
         if (phoneNumber == null || !phoneNumber.matches("\\d{10}")) {
             throw new IOException("Invalid phone number: " + phoneNumber);
@@ -84,6 +94,7 @@ public class Student {
         return true;
     }
 
+    @DOpt(type = OptType.Helper)
     public static boolean validateAddress(String address) throws IOException {
         if (address == null || address.length() > 100) {
             throw new IOException("Invalid address: " + address);
@@ -91,6 +102,7 @@ public class Student {
         return true;
     }
 
+    @DOpt(type = OptType.Helper)
     public boolean repOK() throws IOException {
         try {
             validateId(id);

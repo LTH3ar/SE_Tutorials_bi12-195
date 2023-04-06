@@ -4,6 +4,7 @@ import utils.*;
 
 public class UndergradStudent extends Student {
 
+    @DOpt(type = OptType.Constructor)
     public UndergradStudent(@AttrRef("id") int id,
                             @AttrRef("name") String name,
                             @AttrRef("phoneNumber") String phoneNumber,
