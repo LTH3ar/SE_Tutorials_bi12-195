@@ -1,0 +1,74 @@
+7
+7.1)
+* Comparable Interface:
+    The Comparable interface is used to define the natural ordering of objects. By implementing the Comparable interface,
+    a class indicates that its instances can be compared to other instances of the same class.
+    This interface defines a single method called compareTo(),
+    which is responsible for comparing two objects and determining their relative order.
+
+* Document Interface:
+    The Document interface, as seen in the provided code snippet, defines a method called toHtmlDoc().
+    This interface is specific to the application and represents objects that can be converted into HTML documents.
+    By implementing the Document interface, a class agrees to provide an implementation for the toHtmlDoc() method,
+    which should generate an HTML representation of the object.
+
+(a) Yes, there are alternative ways to achieve the functionality provided by the Comparable interface without
+    explicitly using it. Here are a few alternatives:
+
+* Comparator Interface:
+    Instead of implementing the Comparable interface directly in a class, you can use the Comparator interface
+    to define a separate class that is responsible for comparing objects. The Comparator interface defines a compare()
+    method that compares two objects and returns a negative integer, zero, or a positive integer based on their ordering.
+
+* Custom Comparison Method:
+  You can define a custom method in your class that performs the comparison logic without implementing any specific interface.
+  This method can take another object as a parameter and return a result indicating the ordering relationship.
+
+(b) Yes, it's possible to design the functionality without using the Document interface.
+The Document interface provide a method toHtmlDoc() that returns an HTML document representation of an object.
+Instead of using the Document interface, you can directly include the toHtmlDoc() method in the respective classes
+that need to generate HTML documents.
+
+7.2)
+ The TreeSet is used to maintain a sorted collection of Student objects.
+ The Student class must implement the Comparable interface or provide a custom
+ Comparator to define the sorting order of the students.
+
+* Yes, it is possible to develop the same software functionality without using the TreeSet class.
+  Instead of using a TreeSet, you can use other data structures or collections provided by Java to
+  achieve similar functionality. Here are a few alternatives:
+  - ArrayList with Sorting
+  - LinkedList with Sorting
+  - Implement Custom Sorted Data Structure
+
+7.3) The reason why we can use the kengine for searching students is because the Student class implements the Document interface.
+     The Document interface defines a method called toHtmlDoc() that returns an HTML document representation of an object.
+     The kengine uses this method to generate HTML documents for the students and then searches for the given keyword in the documents.
+
+7.5) The software is built using classes and objects, encapsulating data and behavior into cohesive units.
+1.  Class Design: The software follows a class-based design approach. The key entities in the system, such as Student,
+    UndergradStudent, PostgradStudent, Document, etc., are represented as classes. These classes encapsulate data and
+    provide methods to manipulate and interact with the data.
+
+2.  Inheritance: Inheritance is used to establish an "is-a" relationship between classes. For example, UndergradStudent
+    and PostgradStudent inherit from the Student class, inheriting its attributes and behaviors. This allows for code
+    reuse and promotes a hierarchical organization of related classes.
+
+3.  Interface Implementation: Interfaces, such as Comparable and Document, are used to define contracts that classes can
+    implement. The classes Student, UndergradStudent, and PostgradStudent implement the Comparable interface to enable
+    comparison based on certain criteria. The Student classes also implement the Document interface to provide HTML
+    representation of the objects.
+
+4.  Exception Handling: The implementation includes the use of exceptions, such as NotPossibleException, to handle and
+    communicate exceptional situations or errors.
+
+5.  Method Annotations: The implementation utilizes method annotations, such as @DOpt, to provide additional information
+    or metadata about the methods. These annotations can indicate the type of method (constructor, mutator, observer, etc.)
+    and provide constraints or properties of the attributes.
+
+6.  Library Integration: The software integrates with the existing KEngine library to enable searching for Student objects
+    using keywords. This involves implementing adapter/wrapper classes (StudentDocument) to bridge the gap between the
+    library and the Student objects.
+
+Overall, the implementation strategy focuses on creating reusable and modular classes, utilizing inheritance and interfaces,
+handling exceptions, and integrating with external libraries to provide the desired functionality.

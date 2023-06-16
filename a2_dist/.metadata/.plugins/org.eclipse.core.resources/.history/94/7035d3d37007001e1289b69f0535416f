@@ -1,0 +1,10 @@
+package a2_bi12_195.studentman;
+import a2_bi12_195.kengine.Doc;
+
+public interface Document {
+    /**
+     * @effects <pre>
+     *     return html document of this</pre>
+     */
+    Doc toHtmlDoc();
+}

@@ -1,0 +1,337 @@
+package a2_bi12_195.studentman;
+import utils.AttrRef;
+import utils.DOpt;
+import utils.DomainConstraint;
+import utils.NotPossibleException;
+import utils.OptType;
+
+/**
+ * @overview
+ *   A student of a university.
+ *   There are two specific types: UndergradStudent & PostgradStudent.
+ *
+ * @attributes
+ *   id             Integer    int
+ *   name           String
+ *   phoneNumber    String
+ *   address        String
+ *
+ * @object
+ *   A typical Student is <pre>s=< i,n,p,a ></pre>, where
+ *   <pre>id(i), name(n), phoneNumber(p), address(a)</pre>
+ *
+ * @abstract_properties
+ *   mutable(id)=false /\ optional(id)=false /\ min(id)=1 /\ max(id)=1000000000 /\
+ *   mutable(name)=true /\ optional(name)=false /\ length(name)=50 /\
+ *   mutable(phoneNumber)=true /\ optional(phoneNumber)=false /\ length(phoneNumber)=10 /\
+ *   mutable(address)=true /\ optional(address)=false /\ length(address)=100
+ *
+ * @author BI12-195 Le Tuan Huy
+ */
+
+public class Student implements Comparable, Document {
+    //constants constraints
+    public static final int MIN_ID = 1;
+    public static final int MAX_ID = (int) 1e9;
+    //public static final int MIN_NAME_LENGTH = 1;
+    public static final int MAX_NAME_LENGTH = 50;
+    //public static final int MIN_PHONE_NUMBER_LENGTH = 1;
+    public static final int MAX_PHONE_NUMBER_LENGTH = 10;
+    //public static final int MIN_ADDRESS_LENGTH = 1;
+    public static final int MAX_ADDRESS_LENGTH = 100;
+
+    //attributes
+    @DomainConstraint(type = "Integer", mutable = false, optional = false, min = MIN_ID, max = MAX_ID)
+    private int id;
+
+    @DomainConstraint(type = "String", mutable = true, optional = false, length = MAX_NAME_LENGTH)
+    private String name;
+
+    @DomainConstraint(type = "String", mutable = true, optional = false, length = MAX_PHONE_NUMBER_LENGTH)
+    private String phoneNumber;
+
+    @DomainConstraint(type = "String", mutable = true, optional = false, length = MAX_ADDRESS_LENGTH)
+    private String address;
+
+    //constructor
+    /**
+     * @effects <pre>
+     *     if id, name, phoneNumber, address are valid
+     *         initialize this as Student:<i, n, p, a>
+     *     else
+     *         throws NotPossibleException</pre>
+     */
+    @DOpt(type = OptType.Constructor)
+    public Student(@AttrRef("id") int id,
+                   @AttrRef("name") String name,
+                   @AttrRef("phoneNumber") String phoneNumber,
+                   @AttrRef("address") String address) throws NotPossibleException
+    {
+        if (!validateId(id)) {
+            throw new NotPossibleException("Student.init(): invalid id: " + id);
+        }
+        if (!validateName(name)) {
+            throw new NotPossibleException("Student.init(): invalid name" + name);
+        }
+        if (!validatePhoneNumber(phoneNumber)) {
+            throw new NotPossibleException("Student.init(): invalid phoneNumber" + phoneNumber);
+        }
+        if (!validateAddress(address)) {
+            throw new NotPossibleException("Student.init(): invalid address" + address);
+        }
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
+    //setters
+
+    //setName
+    /**
+     * @effects <pre>
+     *     if name is valid
+     *         set this.name = name
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Mutator) @AttrRef("name")
+    public boolean setName(String name) {
+        if (validateName(name)) {
+            this.name = name;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //setPhoneNumber
+    /**
+     * @effects <pre>
+     *     if phoneNumber is valid
+     *         set this.phoneNumber = phoneNumber
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Mutator) @AttrRef("phoneNumber")
+    public boolean setPhoneNumber(String phoneNumber) {
+        if (validatePhoneNumber(phoneNumber)) {
+            this.phoneNumber = phoneNumber;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //setAddress
+    /**
+     * @effects <pre>
+     *     if address is valid
+     *         set this.address = address
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Mutator) @AttrRef("address")
+    public boolean setAddress(String address) {
+        if (validateAddress(address)) {
+            this.address = address;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //getters
+
+    //getId
+    /**
+     * @effects return id
+     */
+    @DOpt(type = OptType.Observer)
+    @AttrRef("id")
+    public int getId() {
+        return id;
+    }
+
+    //getName
+    /**
+     * @effects return name
+     */
+    @DOpt(type = OptType.Observer)
+    @AttrRef("name")
+    public String getName() {
+        return name;
+    }
+
+    //getPhoneNumber
+    /**
+     * @effects return phoneNumber
+     */
+    @DOpt(type = OptType.Observer)
+    @AttrRef("phoneNumber")
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    //getAddress
+    /**
+     * @effects return address
+     */
+    @DOpt(type = OptType.Observer)
+    @AttrRef("address")
+    public String getAddress() {
+        return address;
+    }
+
+    //validation
+
+    //validateId
+    /**
+     * @effects <pre>
+     *     if id is valid
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Helper)
+    @AttrRef("id")
+    private boolean validateId(int id) {
+        return (id >= MIN_ID && id <= MAX_ID);
+    }
+
+    //validateName
+    /**
+     * @effects <pre>
+     *     if name is valid
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Helper)
+    @AttrRef("name")
+    private boolean validateName(String name) {
+        return (name != null && name.length() <= MAX_NAME_LENGTH);
+    }
+
+    //validatePhoneNumber
+    /**
+     * @effects <pre>
+     *     if phoneNumber is valid
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Helper)
+    @AttrRef("phoneNumber")
+    private boolean validatePhoneNumber(String phoneNumber) {
+        return (phoneNumber != null && phoneNumber.length() <= MAX_PHONE_NUMBER_LENGTH);
+    }
+
+    //validateAddress
+    /**
+     * @effects <pre>
+     *     if address is valid
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Helper)
+    @AttrRef("address")
+    private boolean validateAddress(String address) {
+        return (address != null && address.length() <= MAX_ADDRESS_LENGTH);
+    }
+
+    //repOK
+    /**
+     * @effects <pre>
+     *     if this satisfies rep invariant
+     *         return true
+     *     else
+     *         return false</pre>
+     */
+    @DOpt(type = OptType.Helper)
+    public boolean repOK() {
+        return validateId(id) && validateName(name) && validatePhoneNumber(phoneNumber) && validateAddress(address);
+    }
+
+    //equals
+    /**
+     * @effects <pre>
+     *     if student is null
+     *         throw NullPointerException
+     *     else if student is not a Student
+     *         throw ClassCastException
+     *     else
+     *         return this.id == s.id
+     *             && this.name.equals(s.name)
+     *             && this.phoneNumber.equals(s.phoneNumber)
+     *             && this.address.equals(s.address)</pre>
+     *
+     */
+    @Override
+    @DOpt(type = OptType.Helper)
+    public boolean equals(Object o) throws NullPointerException, ClassCastException{
+        if (o == null) {
+            throw new NullPointerException("Student is null");
+        }
+        if (!(o instanceof Student)) {
+            throw new ClassCastException("Student is not a Student");
+        }
+        Student student = (Student) o;
+        return this.getId() == student.getId()
+                && this.getName().equals(student.getName())
+                && this.getPhoneNumber().equals(student.getPhoneNumber())
+                && this.getAddress().equals(student.getAddress());
+    }
+
+    //compareTo
+    /**
+     * @effects <pre>
+     *     if student is null
+     *         throw NullPointerException
+     *     else if student is not a Student
+     *         throw ClassCastException
+     *     else
+     *         return this.name.compareTo(s.name)</pre>
+     */
+    @Override
+    @DOpt(type = OptType.Helper)
+    public int compareTo(Object o) throws NullPointerException, ClassCastException {
+        if (o == null) {
+            throw new NullPointerException("Student is null");
+        }
+        if (!(o instanceof Student)) {
+            throw new ClassCastException("Student is not a Student");
+        }
+        Student student = (Student) o;
+        return this.getName().compareTo(student.getName());
+    }
+
+    //toString
+    /**
+     * @effects return <code>String</code> representation of this object
+     */
+    @Override
+    @DOpt(type = OptType.Default)
+    public String toString() {
+        return String.format("Student:<%d, %s, %s, %s>", id, name, phoneNumber, address);
+    }
+
+    //toHtmlDoc
+    @Override
+    @DOpt(type = OptType.Default)
+    public String toHtmlDoc() {
+        return "<html>\n" +
+                "<head><title>Student:" + id + "-" + name + "</title></head>\n" +
+                "<body>\n" +
+                id + " " + name + " " + phoneNumber + " " + address + "\n" +
+                "</body></html>";
+    }
+}
+
